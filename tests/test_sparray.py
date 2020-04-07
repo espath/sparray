@@ -74,3 +74,27 @@ def test_add__two_custom_matrices__should_be_sum():
     assert C[2, 0] == 2.52 + 7.33
     assert C[2, 1] == 2.52 + 7.33
     assert C[2, 2] == 2.52 + 7.33
+
+
+def test_sub__two_custom_matrics__should_subtract_correctly():
+    A = sp.sparray((3, 3), default=4.32)
+    B = sp.sparray((3, 3), default=1.10)
+
+    A[0, 0] = 7.83
+    B[0, 0] = 10.32
+
+    B[1, 2] = 3.3
+
+    C = A - B
+
+    assert C[0, 0] == 7.83 - 10.32
+    assert C[0, 1] == 4.32 - 1.10
+    assert C[0, 2] == 4.32 - 1.10
+    assert C[1, 0] == 4.32 - 1.10
+    assert C[1, 1] == 4.32 - 1.10
+    assert C[1, 2] == 4.32 - 3.30
+    assert C[2, 0] == 4.32 - 1.10
+    assert C[2, 1] == 4.32 - 1.10
+    assert C[2, 2] == 4.32 - 1.10
+
+
