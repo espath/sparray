@@ -1,3 +1,4 @@
+import numpy as np
 import sparray as sp
 
 def test_init__default_arguments__should_set_properties_correctly():
@@ -232,3 +233,32 @@ def test_dense__custom_matrix__should_be_equiv_to_ndarray():
     desired = np.array([[25.0, 1.1], [7.5, 9.2]])
 
     assert np.allclose(A.dense(), desired, rtol=1e-13, atol=1e-15)
+
+
+def test_frobenius_norm__custom_matrix__should_be_equal_to_result_for_dense_matrix():
+    A = sp.sparray((3, 3), default=0.0)
+
+    A[0, 0] = 27
+    A[1, 0] = 9
+    A[2, 2] = 45
+
+    actual = (A * A).sum()
+    expected = np.linalg.norm(A.dense(), 'fro')**2
+
+    assert np.allclose(actual, expected, rtol=1e-13, atol=1e-15)
+
+
+def test_frobenius_norm__custom_matrices__should_be_equal_to_result_for_dense_matrices():
+    A = sp.sparray((3, 3), default=0.0)
+    B = sp.sparray((3, 3), default=7.0)
+
+    A[0, 0] = 27
+    A[1, 0] = 9
+    A[2, 2] = 45
+
+    B[2, 2] = 4500
+
+    actual = ((A-B) * (A-B)).sum()
+    expected = np.linalg.norm(A.dense() - B.dense(), 'fro')**2
+
+    assert np.allclose(actual, expected, rtol=1e-13, atol=1e-15)
