@@ -32,7 +32,7 @@ class sparray(object):
 
     def __delitem__(self, index):
         """ index is tuples of element to be deleted. """
-        if self.__data.has_key(index):
+        if index in self.__data:
             del(self.__data[index])
             
 
