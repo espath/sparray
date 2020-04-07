@@ -294,62 +294,61 @@ if __name__ == "__main__":
     
     #create a sparse array
     A = sparray((3,3))
-    print 'shape =', A.shape, 'ndim =', A.ndim
+    print('shape =', A.shape, 'ndim =', A.ndim)
     A[(1,1)] = 10
     A[2,2] = 10
     
     #access an element
-    print A[2,2]
+    print(A[2,2])
     
-    print 'remove an element...'
-    print A
+    print('remove an element...')
+    print(A)
     del(A[2,2])
-    print A
+    print(A)
     
-    print 'array with different default value...'
+    print('array with different default value...')
     B = sparray((3,3),default=3)
-    print B
+    print(B)
 
-    print 'adding...'
-    print A+A
-    print A+B
-    print B+B
+    print('adding...')
+    print(A+A)
+    print(A+B)
+    print(B+B)
     
-    print 'subtracting...'
-    print A-A
-    print A-B
-    print B-B
+    print('subtracting...')
+    print(A-A)
+    print(A-B)
+    print(B-B)
     
-    print 'multiplication...'
-    print A*A
-    print A*B
-    print B*B
+    print('multiplication...')
+    print(A*A)
+    print(A*B)
+    print(B*B)
     
-    print 'division...'
-    print A/B
-    print B/B
+    print('division...')
+    print(A/B)
+    print(B/B)
     
-    print 'mod...'
-    print B%B
-    print A%B
+    print('mod...')
+    print(B%B)
+    print(A%B)
     
-    print 'power...'
-    print A**B
+    print('power...')
+    print(A**B)
     
-    print 'iadd...'
+    print('iadd...')
     A+=B
-    print A
+    print(A)
     A+=A
-    print A
+    print(A)
     
-    print 'sum of elements...'
-    print A.sum()
+    print('sum of elements...')
+    print(A.sum())
     
-    print 'mix with NumPy arrays...'
-    print A.dense() * numpy.ones((3,3))
+    print('mix with NumPy arrays...')
+    print(A.dense() * numpy.ones((3,3)))
     
-    print 'Frobenius norm...'
-    print sum( (A.dense().flatten()-B.dense().flatten())**2 )
-    print ((A-B)*(A-B)).sum()
+    print('Frobenius norm...')
+    print(sum( (A.dense().flatten()-B.dense().flatten())**2 ))
+    print(((A-B)*(A-B)).sum())
 
-    
