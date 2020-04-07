@@ -156,3 +156,47 @@ def test_div__two_custom_matrics__should_divide_elementwise():
     assert C[2, 0] == 1.1 / 2.5
     assert C[2, 1] == 1.1 / 2.5
     assert C[2, 2] == 1.1 / 8.9
+
+
+def test_mod__default_matrices__should_compute_correctly():
+    A = sp.sparray((3, 3))
+    B = sp.sparray((3, 3), default=2.0)
+
+    A[0, 0] = 5
+
+    C = A % B
+
+    assert C[0, 0] == 1.0
+    assert C[0, 1] == 0.0
+    assert C[0, 2] == 0.0
+    assert C[1, 0] == 0.0
+    assert C[1, 1] == 0.0
+    assert C[1, 2] == 0.0
+    assert C[2, 0] == 0.0
+    assert C[2, 1] == 0.0
+    assert C[2, 2] == 0.0
+
+
+def test_power__default_matrices__should_compute_correctly():
+    A = sp.sparray((2, 2), default=2.0)
+    B = sp.sparray((2, 2), default=3.0)
+
+    C = A**B
+
+    assert C[0, 0] == 8.0
+    assert C[0, 1] == 8.0
+    assert C[1, 0] == 8.0
+    assert C[1, 1] == 8.0
+
+
+def test_iadd__default_matrix__should_double_when_add_itself():
+    A = sp.sparray((2, 2), default=1.3)
+
+    A += A
+
+    assert A[0, 0] == 2.6
+    assert A[0, 1] == 2.6
+    assert A[1, 0] == 2.6
+    assert A[1, 1] == 2.6
+
+
