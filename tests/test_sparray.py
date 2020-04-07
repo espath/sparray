@@ -98,3 +98,61 @@ def test_sub__two_custom_matrics__should_subtract_correctly():
     assert C[2, 2] == 4.32 - 1.10
 
 
+def test_mult__A_times_A_with_default_value__should_square_default_value():
+    A = sp.sparray((2, 1), default=7)
+
+    C = A*A
+
+    assert C[0, 0] == 7**2
+    assert C[0, 1] == 7**2
+    assert C[0, 2] == 7**2
+    assert C[1, 0] == 7**2
+    assert C[1, 1] == 7**2
+    assert C[1, 2] == 7**2
+    assert C[2, 0] == 7**2
+    assert C[2, 1] == 7**2
+    assert C[2, 2] == 7**2
+
+
+def test_mult__two_custom_matrices__should_multiply_elementwise():
+    A = sp.sparray((3, 3), default=1.1)
+    B = sp.sparray((3, 3), default=2.5)
+
+    A[0, 0] = 3.5
+    A[1, 0] = 5.7
+    B[2, 2] = 8.9
+    B[0, 0] = 2.1
+
+    C = A * B
+
+    assert C[0, 0] == 3.5 * 2.1
+    assert C[0, 1] == 1.1 * 2.5
+    assert C[0, 2] == 1.1 * 2.5
+    assert C[1, 0] == 5.7 * 2.5
+    assert C[1, 1] == 1.1 * 2.5
+    assert C[1, 2] == 1.1 * 2.5
+    assert C[2, 0] == 1.1 * 2.5
+    assert C[2, 1] == 1.1 * 2.5
+    assert C[2, 2] == 1.1 * 8.9
+
+
+def test_div__two_custom_matrics__should_divide_elementwise():
+    A = sp.sparray((3, 3), default=1.1)
+    B = sp.sparray((3, 3), default=2.5)
+
+    A[0, 0] = 3.5
+    A[1, 0] = 5.7
+    B[2, 2] = 8.9
+    B[0, 0] = 2.1
+
+    C = A / B
+
+    assert C[0, 0] == 3.5 / 2.1
+    assert C[0, 1] == 1.1 / 2.5
+    assert C[0, 2] == 1.1 / 2.5
+    assert C[1, 0] == 5.7 / 2.5
+    assert C[1, 1] == 1.1 / 2.5
+    assert C[1, 2] == 1.1 / 2.5
+    assert C[2, 0] == 1.1 / 2.5
+    assert C[2, 1] == 1.1 / 2.5
+    assert C[2, 2] == 1.1 / 8.9
