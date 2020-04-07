@@ -214,3 +214,21 @@ def test_sum__custom_matrix__should_compute_sum_correctly():
     assert A.sum() == (2 * 2 - 1) * 1.3 + 99.0
 
 
+def test_dense__default_matrix__should_be_equiv_to_ndarray():
+    A = sp.sparray((2, 2), default=1.1)
+
+    desired = np.array([[1.1, 1.1], [1.1, 1.1]])
+
+    assert np.allclose(A.dense(), desired, rtol=1e-13, atol=1e-15)
+
+
+def test_dense__custom_matrix__should_be_equiv_to_ndarray():
+    A = sp.sparray((2, 2), default=1.1)
+
+    A[0, 0] = 25.0
+    A[1, 0] = 7.5
+    A[1, 1] = 9.2
+
+    desired = np.array([[25.0, 1.1], [7.5, 9.2]])
+
+    assert np.allclose(A.dense(), desired, rtol=1e-13, atol=1e-15)
