@@ -200,3 +200,17 @@ def test_iadd__default_matrix__should_double_when_add_itself():
     assert A[1, 1] == 2.6
 
 
+def test_sum__default_matrix__should_compute_sum_correctly():
+    A = sp.sparray((2, 2), default=1.3)
+
+    assert A.sum() == 2 * 2 * 1.3
+
+
+def test_sum__custom_matrix__should_compute_sum_correctly():
+    A = sp.sparray((2, 2), default=1.3)
+
+    A[0, 1] = 99.0
+
+    assert A.sum() == (2 * 2 - 1) * 1.3 + 99.0
+
+
