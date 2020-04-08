@@ -8,7 +8,6 @@ solem@maths.lth.se (bug reports and feedback welcome)
 
 import numpy
 
-
 class sparray(object):
     """ Class for n-dimensional sparse array objects using
         Python's dictionary structure.
@@ -34,6 +33,12 @@ class sparray(object):
         """ index is tuples of element to be deleted. """
         if index in self.__data:
             del(self.__data[index])
+
+    def __abs__(self):
+        """ Absolute value (element wise). """
+        for k in self.__data.keys():
+            self.__data[k] = numpy.abs(self.__data[k])
+        return self
 
     def __add__(self, other):
         """ Add two arrays. """
@@ -273,17 +278,17 @@ class sparray(object):
         return s
 
     def get_items(self):
-        """ Get multi_index list with their values. Default values of
+        """ Get multi_indices list with their values. Default values of
         non-assigned elements are not included"""
         return list(self.__data.items())
 
-    def get_value(self):
+    def get_values(self):
         """ Get all values. Default values of
         non-assigned elements are not included"""
         return list(self.__data.values())
 
-    def get_multi_index(self):
-        """ Get all multi_index. Default values of
+    def get_multi_indices(self):
+        """ Get all multi_indices. Default values of
         non-assigned elements are not included"""
         return list(self.__data.keys())
 
