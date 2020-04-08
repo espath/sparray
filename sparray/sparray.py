@@ -1,5 +1,5 @@
 """
-Module for sparse arrays using dictionaries. Inspired in part 
+Module for sparse arrays using dictionaries. Inspired in part
 by ndsparse (https://launchpad.net/ndsparse) by Pim Schellart
 
 Jan Erik Solem, Feb 9 2010.
@@ -13,14 +13,14 @@ class sparray(object):
     """ Class for n-dimensional sparse array objects using
         Python's dictionary structure.
     """
-    def __init__(self, shape, default=0, dtype=float):
-        
+    def __init__(self, shape, origin=None, default=0, dtype=complex):
+
         self.__default = default #default value of non-assigned elements
         self.shape = tuple(shape)
+        self.origin = tuple([0]*len(shape))
         self.ndim = len(shape)
         self.dtype = dtype
         self.__data = {}
-
 
     def __setitem__(self, index, value):
         """ set value to position given in index, where index is a tuple. """
@@ -34,11 +34,9 @@ class sparray(object):
         """ index is tuples of element to be deleted. """
         if index in self.__data:
             del(self.__data[index])
-            
 
     def __add__(self, other):
         """ Add two arrays. """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -47,14 +45,13 @@ class sparray(object):
             out.__default = self.__default + other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val + other.__data[k]        
+                out.__data[k] = old_val + other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __sub__(self, other):
         """ Subtract two arrays. """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -63,14 +60,13 @@ class sparray(object):
             out.__default = self.__default - other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val - other.__data[k]        
+                out.__data[k] = old_val - other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __mul__(self, other):
         """ Multiply two arrays (element wise). """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -79,15 +75,14 @@ class sparray(object):
             out.__default = self.__default * other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val * other.__data[k]        
+                out.__data[k] = old_val * other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __div__(self, other):
-        """ Divide two arrays (element wise). 
+        """ Divide two arrays (element wise).
             Type of division is determined by dtype. """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -96,15 +91,14 @@ class sparray(object):
             out.__default = self.__default / other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val / other.__data[k]        
+                out.__data[k] = old_val / other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __truediv__(self, other):
-        """ Divide two arrays (element wise). 
+        """ Divide two arrays (element wise).
             Type of division is determined by dtype. """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -113,14 +107,13 @@ class sparray(object):
             out.__default = self.__default / other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val / other.__data[k]        
+                out.__data[k] = old_val / other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __floordiv__(self, other):
         """ Floor divide ( // ) two arrays (element wise). """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -129,14 +122,13 @@ class sparray(object):
             out.__default = self.__default // other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val // other.__data[k]        
+                out.__data[k] = old_val // other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __mod__(self, other):
         """ mod of two arrays (element wise). """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -145,14 +137,13 @@ class sparray(object):
             out.__default = self.__default % other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val % other.__data[k]        
+                out.__data[k] = old_val % other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __pow__(self, other):
         """ power (**) of two arrays (element wise). """
-        
         if self.shape == other.shape:
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
@@ -161,111 +152,104 @@ class sparray(object):
             out.__default = self.__default ** other.__default
             for k in other.__data.keys():
                 old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val ** other.__data[k]        
+                out.__data[k] = old_val ** other.__data[k]
             return out
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __iadd__(self, other):
-        
+
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] + other.__default
             self.__default = self.__default + other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val + other.__data[k]        
+                self.__data[k] = old_val + other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __isub__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] - other.__default
             self.__default = self.__default - other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val - other.__data[k]        
+                self.__data[k] = old_val - other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __imul__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] * other.__default
             self.__default = self.__default * other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val * other.__data[k]        
+                self.__data[k] = old_val * other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __idiv__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] / other.__default
             self.__default = self.__default / other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val / other.__data[k]        
+                self.__data[k] = old_val / other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __itruediv__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] / other.__default
             self.__default = self.__default / other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val / other.__data[k]        
+                self.__data[k] = old_val / other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __ifloordiv__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] // other.__default
             self.__default = self.__default // other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val // other.__data[k]        
+                self.__data[k] = old_val // other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __imod__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] % other.__default
             self.__default = self.__default % other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val % other.__data[k]        
+                self.__data[k] = old_val % other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __ipow__(self, other):
-        
         if self.shape == other.shape:
             for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
                 self.__data[k] = self.__data[k] ** other.__default
             self.__default = self.__default ** other.__default
             for k in other.__data.keys():
                 old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val ** other.__data[k]        
+                self.__data[k] = old_val ** other.__data[k]
             return self
         else:
             raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
@@ -277,7 +261,8 @@ class sparray(object):
         """ Convert to dense NumPy array. """
         out = self.__default * numpy.ones(self.shape)
         for ind in self.__data:
-            out[ind] = self.__data[ind]
+            shift = tuple(numpy.asarray(ind)-numpy.asarray(self.origin))
+            out[shift] = self.__data[ind]
         return out
 
     def sum(self):
@@ -287,68 +272,53 @@ class sparray(object):
             s += (self.__data[ind] - self.__default)
         return s
 
+    def get_items(self):
+        """ Get multi_index list with their values. Default values of
+        non-assigned elements are not included"""
+        return list(self.__data.items())
 
-if __name__ == "__main__":
-    
-    #test cases
-    
-    #create a sparse array
-    A = sparray((3,3))
-    print('shape =', A.shape, 'ndim =', A.ndim)
-    A[(1,1)] = 10
-    A[2,2] = 10
-    
-    #access an element
-    print(A[2,2])
-    
-    print('remove an element...')
-    print(A)
-    del(A[2,2])
-    print(A)
-    
-    print('array with different default value...')
-    B = sparray((3,3),default=3)
-    print(B)
+    def get_value(self):
+        """ Get all values. Default values of
+        non-assigned elements are not included"""
+        return list(self.__data.values())
 
-    print('adding...')
-    print(A+A)
-    print(A+B)
-    print(B+B)
-    
-    print('subtracting...')
-    print(A-A)
-    print(A-B)
-    print(B-B)
-    
-    print('multiplication...')
-    print(A*A)
-    print(A*B)
-    print(B*B)
-    
-    print('division...')
-    print(A/B)
-    print(B/B)
-    
-    print('mod...')
-    print(B%B)
-    print(A%B)
-    
-    print('power...')
-    print(A**B)
-    
-    print('iadd...')
-    A+=B
-    print(A)
-    A+=A
-    print(A)
-    
-    print('sum of elements...')
-    print(A.sum())
-    
-    print('mix with NumPy arrays...')
-    print(A.dense() * numpy.ones((3,3)))
-    
-    print('Frobenius norm...')
-    print(sum( (A.dense().flatten()-B.dense().flatten())**2 ))
-    print(((A-B)*(A-B)).sum())
+    def get_multi_index(self):
+        """ Get all multi_index. Default values of
+        non-assigned elements are not included"""
+        return list(self.__data.keys())
 
+    def sort(self):
+        """ Sort multi_index and values. """
+        items = self.get_items()
+        items.sort()
+        self.__init__(self.shape, self.__default, self.dtype)
+        for item in items:
+            self.__data[item[0]] = item[1]
+        return self
+
+    def hierarchy_augmentation(self, copy=False):
+        """ Hierarchy augmentation includes the boundary of
+        the multi index set. """
+        multi_index = self.get_multi_index()
+        new_multi_index = []
+        m = numpy.asarray([3]*self.ndim)
+        surrounding = []
+        it = numpy.nditer(numpy.ones(tuple(m)),flags=['multi_index'])
+        while not it.finished:
+            surrounding.append(numpy.asarray(it.multi_index)\
+                -numpy.ones(A.ndim,dtype=int))
+            it.iternext()
+        for index in multi_index:
+            for surr_j in surrounding:
+                new_multi_index.append(tuple(numpy.asarray(index)+surr_j))
+        new_multi_index = list(dict.fromkeys(new_multi_index))
+        augm_factor = numpy.asarray([2]*self.ndim)
+        augm_shape = tuple(numpy.asarray(self.shape)+augm_factor)
+        augm = self.__class__(augm_shape, self.dtype)
+        for index in new_multi_index:
+            augm[index] = 0.0
+        if copy:
+            for index in multi_index:
+                augm[index] = self[index]
+        augm.sort()
+        return augm
