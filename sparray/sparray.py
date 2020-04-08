@@ -36,9 +36,14 @@ class sparray(object):
 
     def __abs__(self):
         """ Absolute value (element wise). """
+        if self.dtype == complex:
+            dtype = float
+        else:
+            dtype = self.dtype
+        out = self.__class__(self.shape, origin=self.origin, dtype=dtype)
         for k in self.__data.keys():
-            self.__data[k] = numpy.abs(self.__data[k])
-        return self
+            out.__data[k] = numpy.abs(self.__data[k])
+        return out
 
     def __add__(self, other):
         """ Add two arrays. """
