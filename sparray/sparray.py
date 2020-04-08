@@ -46,223 +46,339 @@ class sparray(object):
         return out
 
     def __add__(self, other):
-        """ Add two arrays. """
-        if self.shape == other.shape:
+        """ Add two arrays or add a scalar to all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] + other.__default
-            out.__default = self.__default + other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val + other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] + other
+            # out.__default = self.__default + other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] + other.__default
+                out.__default = self.__default + other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val + other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __sub__(self, other):
-        """ Subtract two arrays. """
-        if self.shape == other.shape:
+        """ Subtract two arrays or substract a scalar to all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] - other.__default
-            out.__default = self.__default - other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val - other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] - other
+            # out.__default = self.__default - other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] - other.__default
+                out.__default = self.__default - other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val - other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __mul__(self, other):
-        """ Multiply two arrays (element wise). """
-        if self.shape == other.shape:
+        """ Multiply two arrays (element wise) or multiply a scalar to all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] * other.__default
-            out.__default = self.__default * other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val * other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] * other
+            # out.__default = self.__default * other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] * other.__default
+                out.__default = self.__default * other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val * other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __div__(self, other):
         """ Divide two arrays (element wise).
-            Type of division is determined by dtype. """
-        if self.shape == other.shape:
+            Type of division is determined by dtype.
+            Or divide by a scalar all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] / other.__default
-            out.__default = self.__default / other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val / other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] / other
+            # out.__default = self.__default / other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] / other.__default
+                out.__default = self.__default / other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val / other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __truediv__(self, other):
         """ Divide two arrays (element wise).
-            Type of division is determined by dtype. """
-        if self.shape == other.shape:
+            Type of division is determined by dtype.
+            Or divide by a scalar all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] / other.__default
-            out.__default = self.__default / other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val / other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] / other
+            # out.__default = self.__default / other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] / other.__default
+                out.__default = self.__default / other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val / other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __floordiv__(self, other):
-        """ Floor divide ( // ) two arrays (element wise). """
-        if self.shape == other.shape:
+        """ Floor divide ( // ) two arrays (element wise)
+        or floor divide by a scalar all elements of an array. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] // other.__default
-            out.__default = self.__default // other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val // other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] // other
+            # out.__default = self.__default // other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] // other.__default
+                out.__default = self.__default // other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val // other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __mod__(self, other):
-        """ mod of two arrays (element wise). """
-        if self.shape == other.shape:
+        """ mod of two arrays (element wise)
+        or mod of all elements of an array and a scalar. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] % other.__default
-            out.__default = self.__default % other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val % other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] % other
+            # out.__default = self.__default % other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] % other.__default
+                out.__default = self.__default % other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val % other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __pow__(self, other):
-        """ power (**) of two arrays (element wise). """
-        if self.shape == other.shape:
+        """ power (**) of two arrays (element wise)
+        or power of all elements of an array with a scalar. """
+        if numpy.isscalar(other):
             out = self.__class__(self.shape, self.dtype)
             out.__data = self.__data.copy()
-            for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
-                out.__data[k] = out.__data[k] ** other.__default
-            out.__default = self.__default ** other.__default
-            for k in other.__data.keys():
-                old_val = out.__data.setdefault(k,self.__default)
-                out.__data[k] = old_val ** other.__data[k]
+            for k in self.__data.keys():
+                out.__data[k] = self.__data[k] ** other
+            # out.__default = self.__default ** other
             return out
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                out = self.__class__(self.shape, self.dtype)
+                out.__data = self.__data.copy()
+                for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
+                    out.__data[k] = out.__data[k] ** other.__default
+                out.__default = self.__default ** other.__default
+                for k in other.__data.keys():
+                    old_val = out.__data.setdefault(k,self.__default)
+                    out.__data[k] = old_val ** other.__data[k]
+                return out
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __iadd__(self, other):
-
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] + other.__default
-            self.__default = self.__default + other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val + other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] + other
+            # self.__default = self.__default + other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] + other.__default
+                self.__default = self.__default + other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val + other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __isub__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] - other.__default
-            self.__default = self.__default - other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val - other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] - other
+            # self.__default = self.__default - other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] - other.__default
+                self.__default = self.__default - other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val - other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __imul__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] * other.__default
-            self.__default = self.__default * other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val * other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] * other
+            # self.__default = self.__default * other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] * other.__default
+                self.__default = self.__default * other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val * other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __idiv__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] / other.__default
-            self.__default = self.__default / other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val / other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] / other
+            # self.__default = self.__default / other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] / other.__default
+                self.__default = self.__default / other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val / other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __itruediv__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] / other.__default
-            self.__default = self.__default / other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val / other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] / other
+            # self.__default = self.__default / other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] / other.__default
+                self.__default = self.__default / other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val / other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __ifloordiv__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] // other.__default
-            self.__default = self.__default // other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val // other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] // other
+            # self.__default = self.__default // other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] // other.__default
+                self.__default = self.__default // other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val // other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __imod__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] % other.__default
-            self.__default = self.__default % other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val % other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] % other
+            # self.__default = self.__default % other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] % other.__default
+                self.__default = self.__default % other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val % other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __ipow__(self, other):
-        if self.shape == other.shape:
-            for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
-                self.__data[k] = self.__data[k] ** other.__default
-            self.__default = self.__default ** other.__default
-            for k in other.__data.keys():
-                old_val = self.__data.setdefault(k,self.__default)
-                self.__data[k] = old_val ** other.__data[k]
+        if numpy.isscalar(other):
+            for k in self.__data.keys():
+                self.__data[k] = self.__data[k] ** other
+            # self.__default = self.__default ** other
             return self
         else:
-            raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+            if self.shape == other.shape:
+                for k in set.difference(set(self.__data.keys()),set(other.__data.keys())):
+                    self.__data[k] = self.__data[k] ** other.__default
+                self.__default = self.__default ** other.__default
+                for k in other.__data.keys():
+                    old_val = self.__data.setdefault(k,self.__default)
+                    self.__data[k] = old_val ** other.__data[k]
+                return self
+            else:
+                raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
 
     def __str__(self):
         return str(self.dense())
