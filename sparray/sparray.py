@@ -264,7 +264,7 @@ class sparray(object):
 
     def dense(self):
         """ Convert to dense NumPy array. """
-        out = self.__default * numpy.ones(self.shape)
+        out = self.__default * numpy.ones(self.shape,dtype=self.dtype)
         for ind in self.__data:
             shift = tuple(numpy.asarray(ind)-numpy.asarray(self.origin))
             out[shift] = self.__data[ind]
