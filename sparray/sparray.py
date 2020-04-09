@@ -428,7 +428,7 @@ class sparray(object):
     def conj(self):
         """ Conjugate value (element wise). """
         out = self.__class__(self.shape, origin=self.origin,\
-            self.__default, dtype=self.dtype)
+            default=self.__default, dtype=self.dtype)
         for k in self.__data.keys():
             out.__data[k] = numpy.conj(self.__data[k])
         return out
