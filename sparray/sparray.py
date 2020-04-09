@@ -12,11 +12,14 @@ class sparray(object):
     """ Class for n-dimensional sparse array objects using
         Python's dictionary structure.
     """
-    def __init__(self, shape, origin=None, default=0, dtype=complex):
+    def __init__(self, shape, origin=0, default=0, dtype=complex):
 
         self.__default = default #default value of non-assigned elements
         self.shape = tuple(shape)
-        self.origin = tuple([0]*len(shape))
+        if isinstance(origin,int):
+            self.origin = tuple([origin]*len(shape))
+        else:
+            self.origin = origin
         self.ndim = len(shape)
         self.dtype = dtype
         self.__data = {}
@@ -417,14 +420,15 @@ class sparray(object):
         """ Sort multi_index and values. """
         items = self.get_items()
         items.sort()
-        self.__init__(self.shape, self.__default, self.dtype)
+        self.__data = {}
         for item in items:
             self.__data[item[0]] = item[1]
         return self
 
     def conj(self):
         """ Conjugate value (element wise). """
-        out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
+        out = self.__class__(self.shape, origin=self.origin,\
+            self.__default, dtype=self.dtype)
         for k in self.__data.keys():
             out.__data[k] = numpy.conj(self.__data[k])
         return out
