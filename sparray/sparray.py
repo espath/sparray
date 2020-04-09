@@ -70,6 +70,9 @@ class sparray(object):
                 return out
             else:
                 raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+    
+    def __radd__(self, other):
+        return self.__add__(other)
 
     def __sub__(self, other):
         """ Subtract two arrays or substract a scalar to all elements of an array. """
@@ -116,6 +119,9 @@ class sparray(object):
                 return out
             else:
                 raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __div__(self, other):
         """ Divide two arrays (element wise).
