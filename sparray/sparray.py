@@ -51,7 +51,7 @@ class sparray(object):
     def __add__(self, other):
         """ Add two arrays or add a scalar to all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] + other
@@ -59,7 +59,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] + other.__default
@@ -77,7 +77,7 @@ class sparray(object):
     def __sub__(self, other):
         """ Subtract two arrays or substract a scalar to all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] - other
@@ -85,7 +85,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] - other.__default
@@ -100,7 +100,7 @@ class sparray(object):
     def __mul__(self, other):
         """ Multiply two arrays (element wise) or multiply a scalar to all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] * other
@@ -108,7 +108,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] * other.__default
@@ -128,7 +128,7 @@ class sparray(object):
             Type of division is determined by dtype.
             Or divide by a scalar all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] / other
@@ -136,7 +136,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] / other.__default
@@ -153,7 +153,7 @@ class sparray(object):
             Type of division is determined by dtype.
             Or divide by a scalar all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] / other
@@ -161,7 +161,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] / other.__default
@@ -177,7 +177,7 @@ class sparray(object):
         """ Floor divide ( // ) two arrays (element wise)
         or floor divide by a scalar all elements of an array. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] // other
@@ -185,7 +185,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] // other.__default
@@ -201,7 +201,7 @@ class sparray(object):
         """ mod of two arrays (element wise)
         or mod of all elements of an array and a scalar. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] % other
@@ -209,7 +209,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] % other.__default
@@ -225,7 +225,7 @@ class sparray(object):
         """ power (**) of two arrays (element wise)
         or power of all elements of an array with a scalar. """
         if numpy.isscalar(other):
-            out = self.__class__(self.shape, self.dtype)
+            out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
             out.__data = self.__data.copy()
             for k in self.__data.keys():
                 out.__data[k] = self.__data[k] ** other
@@ -233,7 +233,7 @@ class sparray(object):
             return out
         else:
             if self.shape == other.shape:
-                out = self.__class__(self.shape, self.dtype)
+                out = self.__class__(self.shape, origin=self.origin, dtype=self.dtype)
                 out.__data = self.__data.copy()
                 for k in set.difference(set(out.__data.keys()),set(other.__data.keys())):
                     out.__data[k] = out.__data[k] ** other.__default
@@ -394,7 +394,7 @@ class sparray(object):
 
     def dense(self):
         """ Convert to dense NumPy array. """
-        out = self.__default * numpy.ones(self.shape,dtype=self.dtype)
+        out = self.__default * numpy.ones(self.shape, dtype=self.dtype)
         for ind in self.__data:
             shift = tuple(numpy.asarray(ind)-numpy.asarray(self.origin))
             out[shift] = self.__data[ind]
@@ -459,7 +459,7 @@ class sparray(object):
         augm_shape = tuple(numpy.asarray(self.shape)+augm_factor)
         augm_origin = tuple(numpy.asarray(self.origin)-numpy.ones(self.ndim))
         augm = self.__class__(augm_shape, origin=augm_origin,\
-            default=0, self.dtype)
+            default=0, dtype=self.dtype)
         for index in new_multi_index:
             augm[index] = 0.0
         if copy:
