@@ -70,7 +70,7 @@ class sparray(object):
                 return out
             else:
                 raise ValueError('Array sizes do not match. '+str(self.shape)+' versus '+str(other.shape))
-    
+
     def __radd__(self, other):
         return self.__add__(other)
 
@@ -442,14 +442,14 @@ class sparray(object):
     def hierarchy_augmentation(self, copy=False):
         """ Hierarchy augmentation includes the boundary of
         the multi index set. """
-        multi_index = self.get_multi_index()
+        multi_index = self.get_multi_indices()
         new_multi_index = []
         m = numpy.asarray([3]*self.ndim)
         surrounding = []
         it = numpy.nditer(numpy.ones(tuple(m)),flags=['multi_index'])
         while not it.finished:
             surrounding.append(numpy.asarray(it.multi_index)\
-                -numpy.ones(A.ndim,dtype=int))
+                -numpy.ones(self.ndim,dtype=int))
             it.iternext()
         for index in multi_index:
             for surr_j in surrounding:
