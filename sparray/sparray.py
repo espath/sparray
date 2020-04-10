@@ -457,7 +457,9 @@ class sparray(object):
         new_multi_index = list(dict.fromkeys(new_multi_index))
         augm_factor = numpy.asarray([2]*self.ndim)
         augm_shape = tuple(numpy.asarray(self.shape)+augm_factor)
-        augm = self.__class__(augm_shape, self.dtype)
+        augm_origin = tuple(numpy.asarray(self.origin)-numpy.ones(self.ndim))
+        augm = self.__class__(augm_shape, origin=augm_origin,\
+            default=0, self.dtype)
         for index in new_multi_index:
             augm[index] = 0.0
         if copy:
