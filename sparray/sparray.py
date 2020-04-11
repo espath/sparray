@@ -455,9 +455,9 @@ class sparray(object):
             for surr_j in surrounding:
                 new_multi_index.append(tuple(numpy.asarray(index)+surr_j))
         new_multi_index = list(dict.fromkeys(new_multi_index))
-        augm_factor = numpy.asarray([2]*self.ndim)
-        augm_shape = tuple(numpy.asarray(self.shape)+augm_factor)
-        augm_origin = tuple(numpy.asarray(self.origin)-numpy.ones(self.ndim))
+        augm_factor = numpy.asarray([2]*self.ndim).astype(int)
+        augm_shape = tuple(numpy.asarray(self.shape).astype(int)+augm_factor)
+        augm_origin = tuple(numpy.asarray(self.origin).astype(int)-numpy.ones(self.ndim).astype(int))
         augm = self.__class__(augm_shape, origin=augm_origin,\
             default=0, dtype=self.dtype)
         for index in new_multi_index:
