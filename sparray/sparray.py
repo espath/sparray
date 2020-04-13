@@ -439,7 +439,7 @@ class sparray(object):
             out.__data[k] = numpy.conj(self.__data[k])
         return out
 
-    def hierarchy_augmentation(self, copy=False):
+    def hierarchy_augmentation(self, default=1, copy=True):
         """ Hierarchy augmentation includes the boundary of
         the multi index set. """
         multi_index = self.get_multi_indices()
@@ -461,7 +461,7 @@ class sparray(object):
         augm = self.__class__(augm_shape, origin=augm_origin,\
             default=0, dtype=self.dtype)
         for index in new_multi_index:
-            augm[index] = 0.0
+            augm[index] = default
         if copy:
             for index in multi_index:
                 augm[index] = self[index]
